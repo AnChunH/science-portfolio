@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>科學講座與學習歷程檔案製作指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f4; /* stone-100 */
+            color: #292524; /* stone-800 */
+        }
+        .tab-active {
+            background-color: #0284c7; /* sky-600 */
+            color: white;
+            border-bottom-width: 2px;
+            border-color: #0369a1; /* sky-700 */
+        }
+        .tab-inactive {
+            background-color: #e7e5e4; /* stone-200 */
+            color: #57534e; /* stone-600 */
+        }
+        .content-section {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .category-button-active {
+            background-color: #0ea5e9; /* sky-500 */
+            color: white;
+        }
+        .category-button-inactive {
+            background-color: #f0f9ff; /* sky-50 */
+            color: #0369a1; /* sky-700 */
+        }
+        .video-link {
+            color: #0284c7; /* sky-600 */
+            text-decoration: underline;
+        }
+        .video-link:hover {
+            color: #0369a1; /* sky-700 */
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f5f5f4; /* stone-100 */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #a8a29e; /* stone-400 */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #78716c; /* stone-500 */
+        }
+        .llm-output {
+            background-color: #f0f9ff; /* sky-50 */
+            border-left: 4px solid #0ea5e9; /* sky-500 */
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0.25rem;
+            color: #0369a1; /* sky-700 */
+            font-size: 0.95rem;
+            white-space: pre-wrap; /* Preserve whitespace and line breaks */
+        }
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0ea5e9;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .printable-section, .printable-section * {
+                visibility: visible;
+            }
+            .printable-section {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                padding: 0;
+                box-shadow: none;
+                background-color: white;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <header class="bg-sky-700 text-white py-6 shadow-md no-print">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold">💡 科學講座與學習歷程檔案製作指南 🚀</h1>
+        </div>
+    </header>
+
+    <nav class="bg-stone-50 shadow-sm sticky top-0 z-50 no-print">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center space-x-2 sm:space-x-4 py-3">
+                <button id="tab-home" class="tab-active px-4 py-2 rounded-t-lg font-semibold text-sm sm:text-base focus:outline-none transition-colors duration-300">🏠 首頁</button>
+                <button id="tab-explore" class="tab-inactive px-4 py-2 rounded-t-lg font-semibold text-sm sm:text-base focus:outline-none transition-colors duration-300">🧭 講座探索</button>
+                <button id="tab-guide" class="tab-inactive px-4 py-2 rounded-t-lg font-semibold text-sm sm:text-base focus:outline-none transition-colors duration-300">📝 製作指南</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8">
+        <section id="content-home" class="content-section printable-section">
+            <div class="flex justify-end mb-4 no-print">
+                <button onclick="printSection('content-home')" class="bg-stone-200 text-stone-700 px-4 py-2 rounded-lg text-sm hover:bg-stone-300 transition-colors duration-300 shadow-sm flex items-center">
+                    <span class="mr-2">🖨️</span> 列印此區塊
+                </button>
+            </div>
+            <h2 class="text-2xl font-bold text-sky-700 mb-6 text-center">歡迎來到學習歷程檔案製作指南！</h2>
+            <p class="text-lg mb-4 leading-relaxed">
+                親愛的同學們，在邁向大學的旅程中，一份精心製作的學習歷程檔案，是展現你獨特光芒、學習熱情與無限潛力的最佳舞台！透過積極參與科學講座，並將所學轉化為深刻的反思與記錄，你不僅能深化專業知識，更能培養獨立思考、主動探索的關鍵能力。
+            </p>
+            <p class="text-lg mb-6 leading-relaxed">
+                這份指南將結合 Collego 的 **18 學群分類**，為你精選推薦的科學講座主題，並手把手引導你如何將這些寶貴經驗，轉化為一份份令人驚豔的學習歷程檔案。讓我們一起，點亮你的學習之路！✨
+            </p>
+            <div class="bg-sky-50 p-6 rounded-lg border border-sky-200">
+                <h3 class="text-xl font-semibold text-sky-700 mb-3">🤔 為什麼要參與科學講座？</h3>
+                <ul class="list-disc list-inside space-y-2 text-stone-700">
+                    <li>**🔍 探索興趣：** 提早接觸不同學群與科系的真實面貌，找到你真正熱愛的學術領域。</li>
+                    <li>**🧠 深化知識：** 透過領域專家的分享，了解課本以外的最新研究與應用趨勢，拓展你的知識邊界。</li>
+                    <li>**💡 培養素養：** 訓練你的批判性思維、問題解決能力，並激發對科學永不熄滅的好奇心與熱情。</li>
+                    <li>**🌟 豐富歷程：** 為你的學習歷程檔案提供獨特且具說服力的素材，展現你的學習廣度與深度。</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="content-explore" class="content-section printable-section hidden">
+            <div class="flex justify-end mb-4 no-print">
+                <button onclick="printSection('content-explore')" class="bg-stone-200 text-stone-700 px-4 py-2 rounded-lg text-sm hover:bg-stone-300 transition-colors duration-300 shadow-sm flex items-center">
+                    <span class="mr-2">🖨️</span> 列印此區塊
+                </button>
+            </div>
+            <h2 class="text-2xl font-bold text-sky-700 mb-6 text-center">🎯 如何選擇適合你的科學講座？</h2>
+            <p class="text-lg mb-6 text-center leading-relaxed">
+                你可以根據 Collego 18 學群的分類，搭配你的個人興趣與未來志向來選擇。以下我們精選了三個熱門學群的講座主題作為範例，並貼心附上相關的線上影片資源，讓你隨時隨地都能探索科學的奧秘！
+            </p>
+            <div class="flex flex-wrap justify-center gap-3 mb-8 no-print">
+                <button data-category="ai" class="category-button-active px-6 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 focus:outline-none text-sm sm:text-base">🤖 人工智慧與數據科學</button>
+                <button data-category="biomedical" class="category-button-inactive px-6 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 focus:outline-none text-sm sm:text-base">🧬 生物醫學與健康科學</button>
+                <button data-category="engineering" class="category-button-inactive px-6 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 focus:outline-none text-sm sm:text-base">🛠️ 工程與材料科學</button>
+            </div>
+
+            <div id="lecture-details" class="mt-6 p-6 bg-stone-50 rounded-lg border border-stone-200 min-h-[300px]">
+                </div>
+            <p class="mt-4 text-sm text-stone-600 text-center italic no-print">
+                💡 觀看講座或生成摘要/測驗時，不妨拿起紙筆，隨手記錄下你的心得、疑問或關鍵字，讓學習更深入！
+            </p>
+        </section>
+
+        <section id="content-guide" class="content-section printable-section hidden">
+            <div class="flex justify-end mb-4 no-print">
+                <button onclick="printSection('content-guide')" class="bg-stone-200 text-stone-700 px-4 py-2 rounded-lg text-sm hover:bg-stone-300 transition-colors duration-300 shadow-sm flex items-center">
+                    <span class="mr-2">🖨️</span> 列印此區塊
+                </button>
+            </div>
+            <h2 class="text-2xl font-bold text-sky-700 mb-6 text-center">✨ 學習歷程檔案製作關鍵：展現你的學習深度與獨特性 ✨</h2>
+            <p class="text-lg mb-6 text-center leading-relaxed">
+                參與講座只是第一步，將所學轉化為**有意義的學習歷程檔案**才是關鍵！請**務必避免流水帳式的記錄**，而是著重展現你的**個人思考、學習轉變與成長**。
+            </p>
+            
+            <div class="space-y-6">
+                <div class="p-4 bg-sky-50 rounded-lg border border-sky-200">
+                    <h3 class="text-xl font-semibold text-sky-700 mb-2">📝 1. 動機與目的：</h3>
+                    <ul class="list-disc list-inside space-y-1 text-stone-700">
+                        <li>你為什麼選擇這個講座？是什麼內容深深吸引了你？</li>
+                        <li>你希望從中獲得什麼？這個講座如何與你的興趣或未來目標緊密連結？</li>
+                    </ul>
+                </div>
+
+                <div class="p-4 bg-sky-50 rounded-lg border border-sky-200">
+                    <h3 class="text-xl font-semibold text-sky-700 mb-2">📝 2. 內容摘要與心得反思：</h3>
+                    <ul class="list-disc list-inside space-y-1 text-stone-700">
+                        <li>**講座內容：** 簡要概述講座重點，特別是你印象最深刻、對你啟發最大的部分。</li>
+                        <li>**反思與啟發 (最重要！)：**
+                            <ul class="list-circle list-inside ml-4 space-y-1">
+                                <li>你從中學到了什麼？（知識、技能、觀念、價值觀等）</li>
+                                <li>這個講座是否產生了新的疑問，或讓你對原有認知產生挑戰？</li>
+                                <li>你的觀點是否有任何改變？（例如：對 AI 倫理、數據隱私的思考，或對產業發展的想像）</li>
+                                <li>這個講座如何影響你對該學群/科系的認識，以及你未來的學習或職涯規劃？</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="p-4 bg-sky-50 rounded-lg border border-sky-200">
+                    <h3 class="text-xl font-semibold text-sky-700 mb-2">📝 3. 能力展現：</h3>
+                    <ul class="list-disc list-inside space-y-1 text-stone-700">
+                        <li>**解決問題能力：** 在講座後，你是否針對講座內容提出了自己的疑問，或思考可能的解決方案？</li>
+                        <li>**邏輯思維與批判性思考：** 展現你對講座內容的分析、歸納與批判性思考能力。</li>
+                        <li>**學習與創新：** 是否有延伸的學習或實作？（例如：閱讀相關書籍、參與社團活動、嘗試程式編寫、製作模型等）請**務必附上具體事證**（如照片、影片、作品連結、報告截圖等），讓你的努力被看見！</li>
+                        <li>**跨領域連結：** 嘗試將講座內容與你的其他學科知識、個人興趣或高中課程連結，展現你具備**跨領域學習的潛力**。</li>
+                    </ul>
+                </div>
+
+                <div class="p-4 bg-sky-50 rounded-lg border border-sky-200">
+                    <h3 class="text-xl font-semibold text-sky-700 mb-2">📝 4. 未來展望與行動計畫：</h3>
+                    <ul class="list-disc list-inside space-y-1 text-stone-700">
+                        <li>這次經驗如何加深你對該領域的認識？</li>
+                        <li>未來你還想做什麼？會採取哪些具體行動來深化學習？（例如：參與相關競賽、深入研究特定主題、尋找實習機會等）</li>
+                    </ul>
+                </div>
+
+                <div class="p-4 bg-sky-50 rounded-lg border border-sky-200">
+                    <h3 class="text-xl font-semibold text-sky-700 mb-2">🎨 學習歷程檔案的多元呈現方式：</h3>
+                     <ul class="list-disc list-inside space-y-1 text-stone-700">
+                        <li>除了單純的文字敘述，你也可以透過以下方式讓你的學習歷程檔案更生動、更具吸引力：</li>
+                        <li>**圖表與心智圖：** 將講座中的重點或思考脈絡整理成視覺化的圖表或心智圖，展現你的歸納與組織能力。</li>
+                        <li>**多媒體影音：** 如果講座允許，可以將現場錄影或你自行製作的相關紀錄影片剪輯上傳。</li>
+                        <li>**實際作品：** 如果講座激發你完成相關的實作，務必附上作品照片或影片，讓你的創意與執行力一覽無遺。</li>
+                    </ul>
+                </div>
+
+                <div class="p-4 bg-sky-100 rounded-lg border border-sky-300">
+                    <h3 class="text-xl font-semibold text-sky-800 mb-3">✨ 學習歷程檔案寫作輔助 ✨</h3>
+                    <p class="text-stone-700 mb-4">
+                        請輸入你的講座心得、想撰寫的主題，或任何與學習歷程相關的初步想法，讓 AI 助你一臂之力！
+                    </p>
+                    <textarea id="portfolio-input" class="w-full p-3 border border-stone-300 rounded-md focus:ring-2 focus:ring-sky-500 focus:border-transparent resize-y min-h-[100px] text-stone-800" placeholder="例如：我聽了「智慧醫療」的講座，對 AI 如何應用於疾病診斷很有興趣，想寫一篇心得..."></textarea>
+                    <button id="generate-portfolio-aid" class="mt-4 bg-sky-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-sky-700 transition-colors duration-300 shadow-md focus:outline-none">
+                        ✨ 獲得寫作建議
+                    </button>
+                    <div id="portfolio-aid-output" class="llm-output hidden"></div>
+                    <div id="portfolio-aid-loading" class="hidden mt-4 text-center">
+                        <div class="loading-spinner"></div>
+                        <p class="text-sky-700 mt-2">AI 正在為你生成建議中...</p>
+                    </div>
+                    <p class="mt-4 text-sm text-stone-600 text-center italic no-print">
+                        💡 在此發想或獲得建議時，同步在紙本上勾勒大綱或寫下關鍵字，有助於理清思緒！
+                    </p>
+                </div>
+
+                <div class="p-4 bg-sky-100 rounded-lg border border-sky-300">
+                    <h3 class="text-xl font-semibold text-sky-800 mb-3">✨ 專題研究點子發想器 ✨</h3>
+                    <p class="text-stone-700 mb-4">
+                        輸入你感興趣的寬泛主題（例如：AI 應用、環境保護、生物醫學），讓 AI 為你發想專題研究點子！
+                    </p>
+                    <textarea id="project-idea-input" class="w-full p-3 border border-stone-300 rounded-md focus:ring-2 focus:ring-sky-500 focus:border-transparent resize-y min-h-[100px] text-stone-800" placeholder="例如：我想研究如何用科技改善生活品質"></textarea>
+                    <button id="generate-project-ideas" class="mt-4 bg-sky-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-sky-700 transition-colors duration-300 shadow-md focus:outline-none">
+                        ✨ 發想專案點子
+                    </button>
+                    <div id="project-idea-output" class="llm-output hidden"></div>
+                    <div id="project-idea-loading" class="hidden mt-4 text-center">
+                        <div class="loading-spinner"></div>
+                        <p class="text-sky-700 mt-2">AI 正在為你發想中...</p>
+                    </div>
+                    <p class="mt-4 text-sm text-stone-600 text-center italic no-print">
+                        💡 將發想的點子寫在紙本上，可以幫助你畫出心智圖或進行更詳細的規劃！
+                    </p>
+                </div>
+            </div>
+             <p class="text-center mt-8 text-lg font-semibold text-sky-700">
+                請記住，最重要的不是你參加了多少活動，而是你從中獲得了什麼啟發，以及如何將這些啟發轉化為自身的成長與能力。
+            </p>
+            <p class="text-center mt-2 text-lg font-semibold text-sky-700">
+                祝你學習順利，收穫滿滿，打造一份專屬於你的精彩學習歷程檔案！🎓
+            </p>
+        </section>
+    </main>
+
+    <footer class="bg-stone-800 text-stone-300 py-8 mt-12 no-print">
+        <div class="container mx-auto px-4 text-center">
+            <p>© <span id="currentYear"></span> 科學講座與學習歷程檔案製作指南. All Rights Reserved.</p>
+            <p class="text-sm mt-1">為協助高中生探索學習方向而設計。</p>
+        </div>
+    </footer>
+
+    <script>
+        // Data for lecture categories
+        const lectureData = {
+            ai: {
+                title: "🤖 人工智慧與數據科學",
+                groups: ["資訊學群（人工智慧、物聯網、大數據）", "工程學群（智慧機械、自動化技術）", "數理化學群（運算模型、數據分析）"],
+                audience: [
+                    "對<strong>人工智慧、物聯網、大數據</strong>充滿好奇，想探索 AI 在各行各業的應用潛力。",
+                    "渴望學習<strong>機器學習與數據分析</strong>，了解數據如何在網路世界中發揮巨大影響力。",
+                    "對<strong>智慧農業、環境科技</strong>有興趣，想將 AI 應用於生態保育與能源管理領域。"
+                ],
+                videos: [
+                    { name: "面對快速 AI 科技，我們的機會與挑戰", url: "https://www.youtube.com/watch?v=uT163d876Tw" },
+                    { name: "如虎添翼的萬物互聯", url: "https://knowledge.colife.org.tw/one_video/index.aspx?sid=11572" },
+                    { name: "萬物皆關聯 – 網路世界中的人工智慧", url: "https://www.youtube.com/watch?v=-0gERGiNpyI" },
+                    { name: "由人工智慧通往植物科學應用與仿生科技", url: "https://www.youtube.com/watch?v=0AHboGccmCE" }
+                ]
+            },
+            biomedical: {
+                title: "🧬 生物醫學與健康科學",
+                groups: ["生命科學學群（腸道菌、微生物、基因工程）", "醫藥衛生學群（智慧醫療、癌症治療、健康管理）", "生物資源學群（食品科學、營養科學）"],
+                audience: [
+                    "想探索<strong>腸道菌、微生物學</strong>與健康科學的奧秘，思考微生物如何影響人體健康。",
+                    "對<strong>智慧醫療、癌症治療</strong>有濃厚興趣，關注最新生醫技術與免疫療法的發展。",
+                    "渴望研究<strong>失智症、阿茲海默症</strong>的生理機制與預防方法。"
+                ],
+                videos: [
+                    { name: "智慧醫療 – 台灣下一個護國神山", url: "https://www.youtube.com/watch?v=uT163d876Tw" },
+                    { name: "潛藏在腸道的雙面諜：腸道菌特工", url: "https://www.youtube.com/watch?v=iMj188mJ_PA" },
+                    { name: "電漿醫療 – 促進自我傷口癒合", url: "https://www.youtube.com/watch?v=ldZ00cE8tUo" },
+                    { name: "肝炎人生可以不再「黑白」", url: "https://www.youtube.com/watch?v=NtXK-HNvPm0" },
+                    { name: "談癌症", url: "https://www.youtube.com/watch?v=goix6uXkDwM" },
+                    { name: "移動中的大腦 – 大腦導航與阿茲海默症", url: "https://www.youtube.com/watch?v=0NDgbT269PQ" }
+                ]
+            },
+            engineering: {
+                title: "🛠️ 工程與材料科學",
+                groups: ["工程學群（機械工程、材料科學、仿生技術）", "建築與設計學群（機構設計、音樂工程）", "地球與環境學群（能源材料、環境科技）"],
+                audience: [
+                    "想了解<strong>機械工程、仿生設計</strong>，探索機器人技術如何模擬生物運動。",
+                    "對<strong>能源材料、環境工程</strong>有興趣，研究新型材料在航空與生醫領域的應用。",
+                    "對<strong>聲學與振動物理學</strong>感興趣，研究如何透過科學改善樂器製作。"
+                ],
+                videos: [
+                    { name: "鈦合金在先進仿生材料上的應用", url: "https://www.youtube.com/watch?v=ldZ00cE8tUo" },
+                    { name: "仿生與工程 – 以足式機器人為例", url: "https://www.youtube.com/watch?v=SP91YZjPvZM" },
+                    { name: "小提琴與弓的聲學、力學與振動物理學", url: "https://www.youtube.com/watch?v=N0zOZKZ5wl4" }
+                ]
+            }
+        };
+
+        // Tab navigation
+        let tabs = []; // Will be populated in initializePageElements
+
+        // Lecture category selection
+        let categoryButtons; // Will be populated in initializePageElements
+        let lectureDetailsContainer; // Will be populated in initializePageElements
+
+        // Portfolio Aid Generation elements
+        let portfolioInput;
+        let generatePortfolioAidBtn;
+        let portfolioAidOutput;
+        let portfolioAidLoading;
+
+        // Project Idea Brainstormer elements
+        let projectIdeaInput;
+        let generateProjectIdeasBtn;
+        let projectIdeaOutput;
+        let projectIdeaLoading;
+
+        function displayLectureCategory(categoryKey) {
+            const data = lectureData[categoryKey];
+            if (!data) {
+                lectureDetailsContainer.innerHTML = '<p class="text-center text-stone-500">請選擇一個講座類別。</p>';
+                return;
+            }
+
+            let html = `<h3 class="text-xl font-bold text-sky-700 mb-4">${data.title}</h3>`;
+            
+            html += '<div class="mb-4">';
+            html += '<h4 class="font-semibold text-stone-700 mb-1">適合學群：</h4>';
+            html += '<ul class="list-disc list-inside text-stone-600 space-y-1">';
+            data.groups.forEach(group => html += `<li>${group}</li>`);
+            html += '</ul></div>';
+
+            html += '<div class="mb-4">';
+            html += '<h4 class="font-semibold text-stone-700 mb-1">適合這樣的你：</h4>';
+            html += '<ul class="list-disc list-inside text-stone-600 space-y-1">';
+            data.audience.forEach(point => html += `<li>${point}</li>`);
+            html += '</ul></div>';
+
+            html += '<div>';
+            html += '<h4 class="font-semibold text-stone-700 mb-2">推薦講座影片 (點擊觀看)：</h4>';
+            html += '<ul class="space-y-2">';
+            data.videos.forEach((video, index) => {
+                html += `<li class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-2 border-b border-stone-200 last:border-b-0">
+                            <a href="${video.url}" target="_blank" rel="noopener noreferrer" class="video-link hover:text-sky-500 transition-colors duration-200 mb-2 sm:mb-0">${video.name} <span class="text-xs">🔗</span></a>
+                            <div class="flex flex-wrap gap-2 no-print">
+                                <button data-video-index="${index}" data-category-key="${categoryKey}" class="summarize-btn bg-sky-500 text-white px-4 py-1 rounded-md text-sm hover:bg-sky-600 transition-colors duration-300 shadow-sm">
+                                    ✨ 摘要講座內容
+                                </button>
+                                <button data-video-index="${index}" data-category-key="${categoryKey}" class="quiz-btn bg-emerald-500 text-white px-4 py-1 rounded-md text-sm hover:bg-emerald-600 transition-colors duration-300 shadow-sm">
+                                    ✨ 知識測驗
+                                </button>
+                            </div>
+                            <div id="summary-output-${categoryKey}-${index}" class="llm-output hidden w-full"></div>
+                            <div id="summary-loading-${categoryKey}-${index}" class="hidden mt-2 text-center w-full">
+                                <div class="loading-spinner"></div>
+                                <p class="text-sky-700 mt-1 text-sm">AI 正在為你生成摘要中...</p>
+                            </div>
+                            <div id="quiz-output-${categoryKey}-${index}" class="llm-output hidden w-full"></div>
+                            <div id="quiz-loading-${categoryKey}-${index}" class="hidden mt-2 text-center w-full">
+                                <div class="loading-spinner"></div>
+                                <p class="text-sky-700 mt-1 text-sm">AI 正在為你生成測驗中...</p>
+                            </div>
+                        </li>`;
+            });
+            html += '</ul></div>';
+
+            lectureDetailsContainer.innerHTML = html;
+            addSummarizeButtonListeners(); // Add listeners for new buttons
+            addQuizButtonListeners(); // Add listeners for new quiz buttons
+        }
+
+        async function callGeminiAPI(prompt, outputDiv, loadingDiv) {
+            outputDiv.classList.add('hidden');
+            loadingDiv.classList.remove('hidden');
+            outputDiv.innerHTML = '';
+
+            try {
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: chatHistory };
+                const apiKey = "AIzaSyADPp0cxdEB3RbPn0N8QlD3WqFUdCUrDd0"; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    outputDiv.innerHTML = text;
+                    outputDiv.classList.remove('hidden');
+                } else {
+                    outputDiv.innerHTML = '<p class="text-red-500">無法生成內容，請稍後再試。</p>';
+                    outputDiv.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Error fetching from Gemini API:', error);
+                outputDiv.innerHTML = '<p class="text-red-500">生成內容時發生錯誤，請檢查網路連線或稍後再試。</p>';
+                outputDiv.classList.remove('hidden');
+            } finally {
+                loadingDiv.classList.add('hidden');
+            }
+        }
+
+        function addSummarizeButtonListeners() {
+            document.querySelectorAll('.summarize-btn').forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    const categoryKey = event.target.dataset.categoryKey;
+                    const videoIndex = event.target.dataset.videoIndex;
+                    const videoName = lectureData[categoryKey].videos[videoIndex].name;
+                    const outputDiv = document.getElementById(`summary-output-${categoryKey}-${videoIndex}`);
+                    const loadingDiv = document.getElementById(`summary-loading-${categoryKey}-${videoIndex}`);
+                    const prompt = `請為以下講座內容提供一個簡潔的摘要或關鍵字，約50-80字："${videoName}"`;
+                    await callGeminiAPI(prompt, outputDiv, loadingDiv);
+                });
+            });
+        }
+
+        function addQuizButtonListeners() {
+            document.querySelectorAll('.quiz-btn').forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    const categoryKey = event.target.dataset.categoryKey;
+                    const videoIndex = event.target.dataset.videoIndex;
+                    const videoName = lectureData[categoryKey].videos[videoIndex].name;
+                    const outputDiv = document.getElementById(`quiz-output-${categoryKey}-${videoIndex}`);
+                    const loadingDiv = document.getElementById(`quiz-loading-${categoryKey}-${videoIndex}`);
+                    const prompt = `請根據以下講座標題，為高中生設計3個簡短的知識測驗問題（可以是選擇題或簡答題），以檢測他們對該講座主題的理解：\n\n"${videoName}"`;
+                    await callGeminiAPI(prompt, outputDiv, loadingDiv);
+                });
+            });
+        }
+
+        // Print functionality
+        function printSection(sectionId) {
+            const printContents = document.getElementById(sectionId).innerHTML;
+            const originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+            // Re-initialize event listeners and display after print
+            initializePageElements();
+        }
+
+        // Function to re-initialize all necessary elements after print
+        function initializePageElements() {
+            // Re-select DOM elements after innerHTML replacement
+            tabs = [
+                { id: 'home', button: document.getElementById('tab-home'), content: document.getElementById('content-home') },
+                { id: 'explore', button: document.getElementById('tab-explore'), content: document.getElementById('content-explore') },
+                { id: 'guide', button: document.getElementById('tab-guide'), content: document.getElementById('content-guide') }
+            ];
+            categoryButtons = document.querySelectorAll('#content-explore button[data-category]');
+            lectureDetailsContainer = document.getElementById('lecture-details');
+
+            portfolioInput = document.getElementById('portfolio-input');
+            generatePortfolioAidBtn = document.getElementById('generate-portfolio-aid');
+            portfolioAidOutput = document.getElementById('portfolio-aid-output');
+            portfolioAidLoading = document.getElementById('portfolio-aid-loading');
+
+            projectIdeaInput = document.getElementById('project-idea-input');
+            generateProjectIdeasBtn = document.getElementById('generate-project-ideas');
+            projectIdeaOutput = document.getElementById('project-idea-output');
+            projectIdeaLoading = document.getElementById('project-idea-loading');
+
+
+            // Re-attach tab listeners
+            tabs.forEach(tabInfo => {
+                tabInfo.button.addEventListener('click', () => {
+                    tabs.forEach(t => {
+                        t.content.classList.add('hidden');
+                        t.button.classList.remove('tab-active');
+                        t.button.classList.add('tab-inactive');
+                    });
+                    tabInfo.content.classList.remove('hidden');
+                    tabInfo.button.classList.add('tab-active');
+                    tabInfo.button.classList.remove('tab-inactive');
+                    window.scrollTo({ top: tabInfo.button.offsetTop - 70, behavior: 'smooth' }); 
+                });
+            });
+
+            // Re-attach category buttons and display initial category
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    categoryButtons.forEach(btn => {
+                        btn.classList.remove('category-button-active');
+                        btn.classList.add('category-button-inactive');
+                    });
+                    button.classList.add('category-button-active');
+                    button.classList.remove('category-button-inactive');
+                    displayLectureCategory(button.dataset.category);
+                });
+            });
+
+            // Re-attach LLM button listeners
+            addSummarizeButtonListeners();
+            addQuizButtonListeners();
+            
+            // Only attach if elements exist (they might not if tab is hidden)
+            if (generatePortfolioAidBtn) {
+                generatePortfolioAidBtn.addEventListener('click', async () => {
+                    const inputText = portfolioInput.value.trim();
+                    if (inputText === '') {
+                        portfolioAidOutput.innerHTML = '<p class="text-red-500">請輸入一些內容，才能獲得寫作建議喔！</p>';
+                        portfolioAidOutput.classList.remove('hidden');
+                        return;
+                    }
+                    const prompt = `請根據以下內容，為高中生撰寫學習歷程檔案提供寫作建議、大綱思路或啟發性段落。請以繁體中文回應，並強調如何展現個人思考與獨特性：\n\n"${inputText}"`;
+                    await callGeminiAPI(prompt, portfolioAidOutput, portfolioAidLoading);
+                });
+            }
+
+            if (generateProjectIdeasBtn) {
+                generateProjectIdeasBtn.addEventListener('click', async () => {
+                    const inputText = projectIdeaInput.value.trim();
+                    if (inputText === '') {
+                        projectIdeaOutput.innerHTML = '<p class="text-red-500">請輸入一個主題，才能發想點子喔！</p>';
+                        projectIdeaOutput.classList.remove('hidden');
+                        return;
+                    }
+                    const prompt = `請根據以下主題，為高中生提供3-5個適合學習歷程檔案的專題研究或實作專案點子。請強調這些點子如何展現獨特性和跨領域思考：\n\n"${inputText}"`;
+                    await callGeminiAPI(prompt, projectIdeaOutput, projectIdeaLoading);
+                });
+            }
+
+            // Ensure current active tab is shown
+            const currentActiveTabButton = document.querySelector('.tab-active');
+            if (currentActiveTabButton) {
+                const activeTabId = currentActiveTabButton.id.replace('tab-', 'content-');
+                document.getElementById(activeTabId).classList.remove('hidden');
+            } else {
+                // Default to home if no active tab found (e.g., after initial load before any click)
+                document.getElementById('content-home').classList.remove('hidden');
+                document.getElementById('tab-home').classList.add('tab-active');
+                document.getElementById('tab-home').classList.remove('tab-inactive');
+            }
+        }
+
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Initial page load setup
+        window.onload = function() {
+            initializePageElements();
+            displayLectureCategory('ai'); // Pre-load first category in explore tab
+        };
+    </script>
+</body>
+</html>
